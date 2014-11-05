@@ -128,6 +128,25 @@ class DictRegister(list):
             filtered_list = []
         return DictRegister(starting_list)
 
+    def sfilter(self, where_expr):
+        """Returns a DictRegister which contains only the
+        elements that match the given specifications.
+
+        where_expr is a Python `eval` expression that is evaluated in the context of the dict element
+
+        E.g.:
+          - x == 1
+          - x == 1 and y == 2
+        """
+        starting_list = self[:]
+        filtered_list = []
+        for item in starting_list:
+            if eval(where_expr, item.copy()):
+                filtered_list.append(item)
+        starting_list = filtered_list
+        filtered_list = []
+        return DictRegister(starting_list)
+
     def dget(self, **kwds):
         """Returns the first element that matches the
         given specification. If no elements are found

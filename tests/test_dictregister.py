@@ -154,6 +154,32 @@ def test_multiple_filter(fixdr):
     assert filtdr[0] == fixdr[0]
 
 
+def test_sfilter_and(fixdr):
+    filtdr = fixdr.sfilter('x == 1 and y == 2')
+    assert len(filtdr) == 1
+    assert filtdr[0] == fixdr[0]
+
+
+def test_sfilter_ne(fixdr):
+    filtdr = fixdr.sfilter('x != 3')
+    assert len(filtdr) == 1
+    assert filtdr[0] == {'x': 1, 'y': 2}
+    filtdr = fixdr.sfilter('x != 5')
+    assert len(filtdr) == 2
+    assert filtdr[0] == fixdr[0]
+    assert filtdr[1] == fixdr[1]
+
+
+def test_sfilter_fancy(fixdr):
+    filtdr = fixdr.sfilter('x + 1 == y')
+    assert len(filtdr) == 2
+    assert filtdr[0] == fixdr[0]
+    assert filtdr[1] == fixdr[1]
+    filtdr = fixdr.sfilter('x * 2 == y')
+    assert len(filtdr) == 1
+    assert filtdr[0] == fixdr[0]
+
+
 def test_dget_eq(fixdr):
     elem = fixdr.dget(x__eq=1)
     assert elem == {'x': 1, 'y': 2}
